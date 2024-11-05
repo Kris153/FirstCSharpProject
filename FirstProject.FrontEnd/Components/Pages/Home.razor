@@ -1,0 +1,47 @@
+﻿@page "/"
+@inject EmployeeClient EmployeesClient
+<PageTitle>Employees Table</PageTitle>
+
+@if(employees is null || employees.Count() == 0)
+{
+<h1 class="text-center">There are no employees in the database. To add employees click <a href="add_employee" class="text-dark">here</a></h1>
+}
+else
+{
+<table class="table table-striped table-bordered table-hover">
+    <thead class="table-dark">
+        <th>Year</th>
+        <th>Name</th>
+        <th>Month salary</th>
+        <th class="text-center">Calculate net salary</th>
+    </thead>
+    <tbody>
+        @foreach (var employee in employees){
+            <tr>
+                <td>@employee.YearInWhichHeWorked</td>
+                <td>@employee.Name</td>
+                <td>@employee.MonthSalary.ToString("F2")</td>
+                <td>
+                    <div class="text-center">
+                        <a href="@EmployeeUrl(@employee.Id)" class="btn btn-dark text-center" role="button">
+                            <i class="bi bi-calculator"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code{
+    private EmployeeSummary[]? employees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employees = await EmployeesClient.GetEmployeesAsync();
+    }
+
+    private static string EmployeeUrl(int id) => $"/employees/{id}";
+}    
+    

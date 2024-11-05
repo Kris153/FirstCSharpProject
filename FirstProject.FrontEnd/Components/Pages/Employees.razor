@@ -1,0 +1,61 @@
+﻿@page "/employees/{id:int}"
+@inject EmployeeClient EmployeesClient
+@inject YearClient YearsClient
+<PageTitle>Employees</PageTitle>
+@if(employee is null || year is null)
+{
+<h1 class="text-center">There is no such an employee. To add employees click <a href="add_employee" class="text-dark">here</a></h1>
+}
+else
+{
+    <table class="table table-striped table-bordered table-hover mb-5">
+        <thead class="table-dark">
+            <th>Year</th>
+            <th>Minimum threshold</th>
+            <th>Income tax percentage</th>
+            <th>Insurance percantage</th>
+            <th>Maximum insurance threshold</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@year.Year</td>
+                <td>@year.MinimumThreshold.ToString("F2")</td>
+                <td>@year.IncomeTaxPercentage.ToString("F2")</td>
+                <td>@year.InsurancePercantage.ToString("F2")</td>
+                <td>@year.MaximumInsuranceThreshold.ToString("F2")</td>
+            </tr>
+        </tbody>    
+    </table>
+
+    <table class="table table-striped table-bordered table-hover mt-5">
+        <thead class="table-dark">
+            <th>Year</th>
+            <th>Name</th>
+            <th>Month salary</th>
+            <th>Money for income tax</th>
+            <th>Money for insurance tax</th>
+            <th>Net salary for month</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@employee.YearInWhichHeWorked</td>
+                <td>@employee.Name</td>
+                <td>@employee.MonthSalary.ToString("F2")</td>
+                <td>@employee.MoneyForIncomeTax.ToString("F2")</td>
+                <td>@employee.MoneyForInsuranceTax.ToString("F2")</td>
+                <td>@employee.NetSalaryForMonth.ToString("F2")</td>
+            </tr>
+        </tbody>    
+    </table>
+}
+@code {
+    [Parameter]
+    public int Id {get; set;}
+    private EmployeeSalarySummary? employee;
+    private YearSummary? year;
+    protected override async Task OnInitializedAsync()
+    {
+        employee =  await EmployeesClient.GetEmployeeSalarySummaryByIdAsync(Id);
+        year =  await YearsClient.GetYearSummaryByYearAsync(employee.YearInWhichHeWorked);
+    }
+}

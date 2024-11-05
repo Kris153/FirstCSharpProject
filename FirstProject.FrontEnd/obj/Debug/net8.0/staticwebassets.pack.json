@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Documents\\SMConsulta\\First_Project\\FirstProject.FrontEnd\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\FirstProject.FrontEnd.bundle.scp.css",
+      "PackagePath": "staticwebassets\\FirstProject.FrontEnd.bundle.scp.css"
+    },
+    {
+      "Id": "D:\\Documents\\SMConsulta\\First_Project\\FirstProject.FrontEnd\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.FirstProject.FrontEnd.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.FirstProject.FrontEnd.props",
+      "PackagePath": "build\\FirstProject.FrontEnd.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.FirstProject.FrontEnd.props",
+      "PackagePath": "buildMultiTargeting\\FirstProject.FrontEnd.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.FirstProject.FrontEnd.props",
+      "PackagePath": "buildTransitive\\FirstProject.FrontEnd.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

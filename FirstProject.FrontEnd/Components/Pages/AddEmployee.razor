@@ -1,0 +1,67 @@
+﻿@page "/add_employee"
+@inject NavigationManager NavigationManager
+@inject EmployeeClient EmployeesClient
+@inject YearClient YearsClient
+
+<PageTitle>Add employee</PageTitle>
+@if(years is null || years.Count() == 0)
+{
+<h1 class="text-center">There are no years in the database. To add year click <a href="add_year" class="text-dark">here</a></h1>
+}
+else
+{
+    <div class="container position-absolute top-50 start-50 translate-middle">
+        <div class="row mt-5">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h2 class="text-dark mt-3 text-center">Add employee</h2>
+                <EditForm Model="@employeeToAdd" FormName="addEmployee" OnValidSubmit="HandleSubmitAsync">
+                    <DataAnnotationsValidator/>
+                    <div class="form-floating mt-3">
+                        <InputText required type="text" id="name" @bind-Value="employeeToAdd.Name" class="form-control"
+                        placeholder="Place name here"/>
+                        <label for="name" class="form-label">Name</label>
+                    </div>
+                    <ValidationMessage For=@(() => employeeToAdd.Name)/>
+                    <div class="form-floating mt-3">
+                        <InputSelect required id="year" @bind-Value="employeeToAdd.YearInWhichHeWorkedId" class="form-select">
+                            <option value="">Select year</option>
+                            @foreach (var year in years)
+                            {
+                                <option value="@year.Id">@year.Year</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <ValidationMessage For=@(() => employeeToAdd.YearInWhichHeWorkedId)/>
+                    <div class="form-floating mt-3">
+                        <InputNumber required type="number" id="salary" @bind-Value="employeeToAdd.MonthSalary" class="form-control"
+                        placeholder="Place salary here"/>
+                        <label for="salary" class="form-label">Salary</label>
+                    </div>
+                    <ValidationMessage For=@(() => employeeToAdd.MonthSalary)/>
+                    <div class="text-center">
+                        <button class="mt-3 btn btn-success mb-3 btn-center">Add</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+}
+@code {
+    [SupplyParameterFromForm]
+    private EmployeeToAdd employeeToAdd {get; set; }= new()
+    {
+        YearInWhichHeWorkedId = 0, Name = String.Empty, MonthSalary = null
+    };
+    private YearSummary[]? years;
+
+    protected override async Task OnInitializedAsync()
+    {
+        years = await YearsClient.GetYearSummariesAsync();
+    } 
+
+    private async Task HandleSubmitAsync(){
+        await EmployeesClient.AddEmployeeAsync(employeeToAdd);
+        NavigationManager.NavigateTo("/");
+    }
+}    

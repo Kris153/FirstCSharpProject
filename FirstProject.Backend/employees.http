@@ -1,0 +1,23 @@
+Get http://localhost:5150/employees/1
+###
+POST http://localhost:5150/employees
+Content-Type: application/json
+
+{
+    "name": "Georgi Stoyanov",
+    "monthSalary": 4000,
+    "yearInWhichHeWorkedId": 2
+}
+###
+POST http://localhost:5150/years
+Content-Type: application/json
+
+{
+    "year": 2023,
+    "minimumThreshold": 1500,
+    "incomeTaxPercentage": 10,
+    "insurancePercantage": 15,
+    "maximumInsuranceThreshold": 3000
+}
+###
+Get http://localhost:5150/years/2024

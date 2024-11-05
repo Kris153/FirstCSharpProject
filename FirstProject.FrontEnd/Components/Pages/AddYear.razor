@@ -1,0 +1,66 @@
+﻿@page "/add_year"
+@inject NavigationManager NavigationManager
+@inject YearClient YearsClient
+@rendermode InteractiveServer
+<PageTitle>Add year</PageTitle>
+
+<div class="container position-absolute top-50 start-50 translate-middle">
+        <div class="row mt-5">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h2 class="text-dark mt-3 text-center">Add year</h2>
+                <EditForm Model="@yearToAdd" FormName="addYear" OnValidSubmit="HandleSubmitAsync">
+                    <DataAnnotationsValidator/>
+                    <div class="form-floating mt-3">
+                        <InputNumber required type="number" id="year" @bind-Value="yearToAdd.Year" class="form-control"
+                        placeholder="Place year here"/>
+                        <label for="year" class="form-label">Year</label>
+                    </div>
+                    <ValidationMessage For=@(() => yearToAdd.Year)/>
+
+                    <div class="form-floating mt-3">
+                        <InputNumber required type="number" id="minimum_threshold" @bind-Value="yearToAdd.MinimumThreshold" class="form-control"
+                        placeholder="Place minimum threshold here"/>
+                        <label for="minimum_threshold" class="form-label">Minimum threshold</label>
+                    </div>
+                    <ValidationMessage For=@(() => yearToAdd.MinimumThreshold)/>
+                    
+                    <div class="form-floating mt-3">
+                        <InputNumber required type="number" id="income_tax_percentage" @bind-Value="yearToAdd.IncomeTaxPercentage" class="form-control"
+                        placeholder="Place income tax percentage here"/>
+                        <label for="income_tax_percentage" class="form-label">Income tax percentage</label>
+                    </div>
+                    <ValidationMessage For=@(() => yearToAdd.IncomeTaxPercentage)/>
+                    
+                    <div class="form-floating mt-3">
+                        <InputNumber required type="number" id="insurance_percantage" @bind-Value="yearToAdd.InsurancePercantage" class="form-control"
+                        placeholder="Place insurance percantage here"/>
+                        <label for="insurance_percantage" class="form-label">Insurance percantage</label>
+                    </div>
+                    <ValidationMessage For=@(() => yearToAdd.InsurancePercantage)/>
+                    <div class="form-floating mt-3">
+                        <InputNumber required type="number" id="maximum_insurance_threshold" @bind-Value="yearToAdd.MaximumInsuranceThreshold" class="form-control"
+                        placeholder="Place aximum insurance threshold here"/>
+                        <label for="aximum_insurance_threshold" class="form-label">Maximum insurance threshold</label>
+                    </div>
+                    <ValidationMessage For=@(() => yearToAdd.MaximumInsuranceThreshold)/>
+                    <div class="text-center">
+                        <button class="mt-3 btn btn-success mb-3 btn-center">Add</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+
+@code {
+    [SupplyParameterFromForm]
+    private YearToAdd yearToAdd {get; set; } = new()
+    {
+        Year = 0, MinimumThreshold = 0, IncomeTaxPercentage = 0, InsurancePercantage = 0, MaximumInsuranceThreshold = 0
+    };
+
+    private async Task HandleSubmitAsync(){
+        await YearsClient.AddYearAsync(yearToAdd);
+        NavigationManager.NavigateTo("/add_employee");
+    }
+}
